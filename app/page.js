@@ -1,190 +1,42 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { QRCodeSVG } from 'qrcode.react';
-import { Camera, Heart, Phone, AlertTriangle, User, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+'use client'
 
-const MedicalEmergencyApp = () => {
-  const [step, setStep] = useState(0);
-  const [formData, setFormData] = useState({
-    name: '',
-    age: '',
-    bloodType: '',
-    allergies: '',
-    medications: '',
-    conditions: '',
-    emergencyContact: '',
-    emergencyPhone: '',
-  });
+import React from 'react'
+import { motion } from 'framer-motion'
+import Link from 'next/link'
+import { Heart, QrCode, Shield } from 'lucide-react'
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const generateQRCode = () => {
-    const data = JSON.stringify(formData);
-    const encodedData = encodeURIComponent(data);
-    return `https://your-vercel-app-url.vercel.app/profile?data=${encodedData}`;
-  };
-
-  const steps = [
-    { title: 'Personal Info', icon: User },
-    { title: 'Medical Info', icon: Heart },
-    { title: 'Emergency Contact', icon: Phone },
-    { title: 'Generate QR Code', icon: Camera },
-  ];
-
+export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex flex-col items-center justify-center p-4 text-white">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
+        transition={{ duration: 0.8 }}
+        className="text-center"
       >
-        <Card className="w-full">
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center text-gray-800">Medical Emergency Info</CardTitle>
-            <CardDescription className="text-center text-gray-600">Your life-saving information at a scan</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex justify-between mb-6">
-              {steps.map((s, index) => (
-                <motion.div
-                  key={index}
-                  className={`flex flex-col items-center ${
-                    index <= step ? 'text-blue-600' : 'text-gray-400'
-                  }`}
-                  whileHover={{ scale: 1.1 }}
-                >
-                  <s.icon className="w-6 h-6 mb-1" />
-                  <span className="text-xs">{s.title}</span>
-                </motion.div>
-              ))}
-            </div>
-            {step === 0 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Input
-                  name="name"
-                  placeholder="Full Name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="mb-4"
-                />
-                <Input
-                  name="age"
-                  placeholder="Age"
-                  value={formData.age}
-                  onChange={handleInputChange}
-                  className="mb-4"
-                />
-                <Input
-                  name="bloodType"
-                  placeholder="Blood Type"
-                  value={formData.bloodType}
-                  onChange={handleInputChange}
-                  className="mb-4"
-                />
-              </motion.div>
-            )}
-            {step === 1 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Textarea
-                  name="allergies"
-                  placeholder="Allergies"
-                  value={formData.allergies}
-                  onChange={handleInputChange}
-                  className="mb-4"
-                />
-                <Textarea
-                  name="medications"
-                  placeholder="Current Medications"
-                  value={formData.medications}
-                  onChange={handleInputChange}
-                  className="mb-4"
-                />
-                <Textarea
-                  name="conditions"
-                  placeholder="Medical Conditions"
-                  value={formData.conditions}
-                  onChange={handleInputChange}
-                  className="mb-4"
-                />
-              </motion.div>
-            )}
-            {step === 2 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Input
-                  name="emergencyContact"
-                  placeholder="Emergency Contact Name"
-                  value={formData.emergencyContact}
-                  onChange={handleInputChange}
-                  className="mb-4"
-                />
-                <Input
-                  name="emergencyPhone"
-                  placeholder="Emergency Contact Phone"
-                  value={formData.emergencyPhone}
-                  onChange={handleInputChange}
-                  className="mb-4"
-                />
-              </motion.div>
-            )}
-            {step === 3 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="flex flex-col items-center"
-              >
-                <QRCodeSVG value={generateQRCode()} size={200} className="mb-4" />
-                <p className="text-sm text-gray-600 text-center">
-                  Scan this QR code to access your medical information in case of emergency.
-                </p>
-              </motion.div>
-            )}
-          </CardContent>
-          <CardFooter className="flex justify-between">
-            <Button
-              variant="outline"
-              onClick={() => setStep(Math.max(0, step - 1))}
-              disabled={step === 0}
-            >
-              Previous
-            </Button>
-            <Button
-              onClick={() => setStep(Math.min(3, step + 1))}
-              disabled={step === 3}
-            >
-              {step === 2 ? 'Generate QR Code' : 'Next'}
-            </Button>
-          </CardFooter>
-        </Card>
+        <Heart className="w-24 h-24 mx-auto mb-8 text-red-400" />
+        <h1 className="text-6xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500">
+          MediSafe QR
+        </h1>
+        <p className="text-xl mb-8 max-w-md mx-auto">
+          Your lifeline in emergencies. Create a QR code with your vital medical information.
+        </p>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="flex space-x-4"
+      >
+        <Link href="/create-profile" className="flex items-center bg-white text-purple-600 px-6 py-3 rounded-full font-bold text-lg hover:bg-opacity-90 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+          <QrCode className="w-6 h-6 mr-2" />
+          Create Your MediSafe QR
+        </Link>
+        <Link href="#how-it-works" className="flex items-center bg-transparent border-2 border-white text-white px-6 py-3 rounded-full font-bold text-lg hover:bg-white hover:text-purple-600 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+          <Shield className="w-6 h-6 mr-2" />
+          How It Works
+        </Link>
       </motion.div>
     </div>
-  );
-};
-
-export default MedicalEmergencyApp;
+  )
+}
